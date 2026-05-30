@@ -1,0 +1,12 @@
+# AURA LIMS — single web service. Bound to localhost only; the host's Caddy
+# reverse-proxies the public domain (staging.lab.aurmak.com) to it.
+services:
+  web:
+    build: .
+    image: diaglab-web
+    container_name: diaglab-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3200:3200"
+    environment:
+      - NODE_ENV=production

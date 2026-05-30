@@ -1,0 +1,16 @@
+# Keep all source + package manifests (npm workspaces need every workspace package.json),
+# but exclude heavy / irrelevant / local artifacts from the build context.
+**/node_modules
+node_modules
+**/.next
+.next
+**/.next-*
+.next-*
+.git
+.gitignore
+.github
+.data
+**/.data
+.claude
+.DS_Store
+*.docx
