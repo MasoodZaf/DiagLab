@@ -1,0 +1,9 @@
+{
+  "name": "@lab/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "node -e \"console.log('@lab/contracts: type-only package, validated by consumers')\""
+  }
+}

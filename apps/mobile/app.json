@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "AI Diagnostic Lab Platform",
+    "slug": "ai-diagnostic-lab-platform",
+    "scheme": "ailab",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light"
+  }
+}

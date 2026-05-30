@@ -1,0 +1,9 @@
+{
+  "name": "@lab/demo-data",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "node -e \"console.log('@lab/demo-data: fixtures only, validated by consumers')\""
+  }
+}

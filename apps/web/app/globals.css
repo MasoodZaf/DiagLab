@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+/* Explicit content sources (monorepo): app routes, shared components, and the
+   @lab/ui package — so all utility classes used anywhere are generated. */
+@source "../app";
+@source "../components";
+@source "../../../packages/ui/src";
+
+/* Dark mode is driven by data-theme on <html>, set pre-paint by an inline script. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Default platform brand ("AURA") tokens — used on brand-neutral surfaces such
+ * as the marketing site. Tenant surfaces override these via a scoped stylesheet
+ * (see buildTenantThemeCss). All component styling reads these CSS variables, so
+ * theming a tenant or flipping dark mode is purely a token swap.
+ */
+@theme {
+  --font-display: "Sora", "SF Pro Display", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", "SF Pro Text", system-ui, -apple-system, sans-serif;
+
+  --color-primary: #0e7c66;
+  --color-primary-foreground: #f4fbf9;
+  --color-accent-surface: #e2f0eb;
+  --color-canvas: #f6f8f7;
+  --color-panel: #ffffff;
+  --color-panel-muted: #eef3f1;
+  --color-line: #dce6e2;
+  --color-text: #0f1f1c;
+  --color-text-muted: #59706b;
+  --color-success: #11805d;
+  --color-warning: #a86a12;
+  --color-danger: #b03a36;
+
+  --radius-panel: 16px;
+  --density-scale: 1;
+
+  --shadow-card: 0 1px 2px rgba(15, 31, 28, 0.04), 0 8px 24px -12px rgba(15, 31, 28, 0.12);
+  --shadow-lift: 0 2px 4px rgba(15, 31, 28, 0.05), 0 24px 60px -24px rgba(15, 31, 28, 0.28);
+}
+
+:root {
+  --ring: color-mix(in srgb, var(--color-primary) 55%, transparent);
+}
+
+/* Dark-mode token overrides for the default platform brand. */
+:root[data-theme="dark"] {
+  --color-primary: #36c9ad;
+  --color-primary-foreground: #04130f;
+  --color-accent-surface: #123029;
+  --color-canvas: #0a1412;
+  --color-panel: #0f1c19;
+  --color-panel-muted: #15241f;
+  --color-line: #24352f;
+  --color-text: #eaf4f1;
+  --color-text-muted: #93a8a2;
+  --color-success: #34d39f;
+  --color-warning: #e0a44a;
+  --color-danger: #f08a83;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -14px rgba(0, 0, 0, 0.7);
+  --shadow-lift: 0 2px 6px rgba(0, 0, 0, 0.5), 0 30px 70px -28px rgba(0, 0, 0, 0.8);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    background: var(--color-canvas);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--color-canvas);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Script-tuned fonts for the right-to-left (Arabic) locale. */
+  [lang="ar"] {
+    --font-display: "Noto Kufi Arabic", "Geeza Pro", "Segoe UI", sans-serif;
+    --font-body: "Noto Naskh Arabic", "Geeza Pro", "Segoe UI", sans-serif;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--ring);
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-primary) 28%, transparent);
+    color: var(--color-text);
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-text-muted) 40%, transparent);
+    border-radius: 999px;
+    border: 3px solid var(--color-canvas);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--color-text-muted) 60%, transparent);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer utilities {
+  /* Subtle entrance used by hero / cards on the marketing site. */
+  @keyframes aura-rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-rise {
+    animation: aura-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-line) 60%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-line) 60%, transparent) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  .bg-aura {
+    background:
+      radial-gradient(60% 60% at 15% 10%, color-mix(in srgb, var(--color-primary) 16%, transparent), transparent 70%),
+      radial-gradient(50% 50% at 90% 0%, color-mix(in srgb, var(--color-accent-surface) 80%, transparent), transparent 70%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-text), color-mix(in srgb, var(--color-primary) 75%, var(--color-text)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print: optimise the laboratory report for paper / PDF export. */
+@media print {
+  :root[data-theme="dark"] {
+    --color-canvas: #ffffff;
+    --color-panel: #ffffff;
+    --color-panel-muted: #f3f4f6;
+    --color-text: #0b0f0e;
+    --color-text-muted: #44504d;
+    --color-line: #cbd5d1;
+  }
+  html, body {
+    background: #ffffff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-page {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+  @page {
+    margin: 14mm;
+  }
+}

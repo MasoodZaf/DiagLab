@@ -1,0 +1,11 @@
+node_modules
+.next
+.next-*
+dist
+build
+.expo
+coverage
+*.tsbuildinfo
+.data
+.claude
+.DS_Store

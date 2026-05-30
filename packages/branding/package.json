@@ -1,0 +1,9 @@
+{
+  "name": "@lab/branding",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "TS_NODE_PROJECT=tsconfig.json TS_NODE_COMPILER_OPTIONS='{\"module\":\"CommonJS\",\"moduleResolution\":\"Node\"}' node --test -r ts-node/register/transpile-only -r tsconfig-paths/register test/*.test.ts"
+  }
+}

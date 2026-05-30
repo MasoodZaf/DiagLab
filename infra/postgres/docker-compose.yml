@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ai-lab-postgres
+    environment:
+      POSTGRES_DB: ai_lab
+      POSTGRES_USER: ai_lab
+      POSTGRES_PASSWORD: ai_lab_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ai_lab_postgres_data:/var/lib/postgresql/data
+      - ./001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+      - ./002_seed_demo.sql:/docker-entrypoint-initdb.d/002_seed_demo.sql:ro
+
+volumes:
+  ai_lab_postgres_data:
