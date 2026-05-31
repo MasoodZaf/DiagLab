@@ -30,7 +30,7 @@ const TYPE_KEY: Record<OutletType, string> = {
 export default async function LabAdminPage({ searchParams }: PageProps) {
   const sp = searchParams ? await searchParams : undefined;
   const { tenant, actor, locale, intlLocale, t } = getAppContext(sp, { defaultRole: "lab_admin" });
-  const { snapshot } = getTenantDomainData(tenant);
+  const { snapshot } = await getTenantDomainData(tenant);
 
   // RBAC: tenant administration is for the Lab Admin (platform Super Admin may also enter).
   if (actor.role !== "lab_admin" && actor.role !== "super_admin") {

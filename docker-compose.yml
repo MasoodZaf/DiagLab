@@ -1,12 +1,39 @@
-# AURA LIMS — single web service. Bound to localhost only; the host's Caddy
-# reverse-proxies the public domain (staging.lab.aurmak.com) to it.
+# AURA LIMS — web app + its own Postgres. The web service is bound to localhost
+# only; the host's Caddy reverse-proxies the public domain
+# (staging.lab.aurmak.com) to it. Postgres is NOT published to the host — the web
+# app reaches it over the internal compose network — so it won't clash with any
+# other Postgres already running on the VPS (codearc / tax stay untouched).
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: diaglab-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ai_lab
+      POSTGRES_USER: ai_lab
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ai_lab_password}
+    volumes:
+      - diaglab_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ai_lab -d ai_lab"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   web:
     build: .
     image: diaglab-web
     container_name: diaglab-web
     restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
     ports:
       - "127.0.0.1:3200:3200"
     environment:
       - NODE_ENV=production
+      # The web app self-bootstraps its schema + demo seed on first request.
+      - DATABASE_URL=postgres://ai_lab:${POSTGRES_PASSWORD:-ai_lab_password}@postgres:5432/ai_lab
+
+volumes:
+  diaglab_pgdata:

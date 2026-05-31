@@ -33,7 +33,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   const { tenant, actor, locale, intlLocale, t } = getAppContext(sp, {
     defaultRole: "receptionist"
   });
-  const { snapshot } = getTenantDomainData(tenant);
+  const { snapshot } = await getTenantDomainData(tenant);
 
   const defaultCurrency = tenantCurrency[tenant.slug] ?? testCatalog.currencies[0];
 

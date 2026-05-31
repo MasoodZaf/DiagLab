@@ -14,7 +14,7 @@ type PageProps = {
 export default async function PatientOrdersPage({ searchParams }: PageProps) {
   const sp = searchParams ? await searchParams : undefined;
   const { tenant, locale, intlLocale, t } = getAppContext(sp, { defaultRole: "patient" });
-  const { snapshot, patientActor } = getTenantDomainData(tenant);
+  const { snapshot, patientActor } = await getTenantDomainData(tenant);
   const patient =
     snapshot.patients.find((entry) => entry.fullName === patientActor.displayName) ?? snapshot.patients[0];
   const orders = snapshot.orders.filter((entry) => entry.patientId === patient.id);

@@ -12,8 +12,8 @@ type PageProps = {
 
 export default async function OpsOrderDetailPage({ params, searchParams }: PageProps) {
   const [{ orderId }, resolvedParams] = await Promise.all([params, searchParams ?? Promise.resolve(undefined)]);
-  const { tenant, locale } = getAppContext(resolvedParams, { defaultRole: "receptionist" });
-  const { snapshot, receptionistActor } = getTenantDomainData(tenant);
+  const { tenant, locale, t } = getAppContext(resolvedParams, { defaultRole: "receptionist" });
+  const { snapshot, receptionistActor } = await getTenantDomainData(tenant);
   const order = snapshot.orders.find((entry) => entry.id === orderId);
 
   if (!order) {
@@ -30,30 +30,30 @@ export default async function OpsOrderDetailPage({ params, searchParams }: PageP
     <OpsShell active="orders" actor={receptionistActor} snapshot={snapshot} tenant={tenant} locale={locale}>
       <div className="grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
         <Card className="p-6">
-          <SectionHeading eyebrow="Order detail">{order.orderNumber}</SectionHeading>
+          <SectionHeading eyebrow={t("ops.orders.detailEyebrow")}>{order.orderNumber}</SectionHeading>
           <div className="mt-6 grid gap-4 text-sm">
             <div className="rounded-[22px] bg-[var(--color-panel-muted)] p-4">
-              <p className="text-[var(--color-text-muted)]">Patient</p>
-              <p className="mt-1 font-medium text-[var(--color-text)]">{patient?.fullName ?? "Unknown patient"}</p>
+              <p className="text-[var(--color-text-muted)]">{t("ops.orders.patient")}</p>
+              <p className="mt-1 font-medium text-[var(--color-text)]">{patient?.fullName ?? t("ops.orders.unknownPatient")}</p>
             </div>
             <div className="rounded-[22px] bg-[var(--color-panel-muted)] p-4">
-              <p className="text-[var(--color-text-muted)]">Sample state</p>
-              <p className="mt-1 font-medium text-[var(--color-text)]">{sample?.status ?? "Pending"}</p>
+              <p className="text-[var(--color-text-muted)]">{t("ops.orders.sampleState")}</p>
+              <p className="mt-1 font-medium text-[var(--color-text)]">{sample?.status ?? t("common.pending")}</p>
             </div>
             <div className="rounded-[22px] bg-[var(--color-panel-muted)] p-4">
-              <p className="text-[var(--color-text-muted)]">Billing</p>
+              <p className="text-[var(--color-text-muted)]">{t("ops.orders.billing")}</p>
               <p className="mt-1 font-medium text-[var(--color-text)]">
-                {invoice ? formatMoney(invoice.totalAmount - invoice.paidAmount, invoice.currency) : "No invoice"} outstanding
+                {invoice ? formatMoney(invoice.totalAmount - invoice.paidAmount, invoice.currency) : t("ops.orders.noInvoice")} {t("ops.orders.outstandingSuffix")}
               </p>
             </div>
             <div className="rounded-[22px] bg-[var(--color-panel-muted)] p-4">
-              <p className="text-[var(--color-text-muted)]">Report</p>
-              <p className="mt-1 font-medium text-[var(--color-text)]">{report ? report.status : "Not created"}</p>
+              <p className="text-[var(--color-text-muted)]">{t("ops.orders.reportLabel")}</p>
+              <p className="mt-1 font-medium text-[var(--color-text)]">{report ? report.status : t("ops.orders.notCreated")}</p>
             </div>
           </div>
         </Card>
         <Card className="p-6">
-          <SectionHeading eyebrow="Results">Clinical verification state</SectionHeading>
+          <SectionHeading eyebrow={t("ops.orders.resultsEyebrow")}>{t("ops.orders.resultsTitle")}</SectionHeading>
           <div className="mt-6 grid gap-4">
             {results.map((result) => (
               <div className="rounded-[24px] bg-[var(--color-panel-muted)] p-5" key={result.id}>
@@ -67,7 +67,7 @@ export default async function OpsOrderDetailPage({ params, searchParams }: PageP
                   </span>
                 </div>
                 <p className="mt-4 text-sm text-[var(--color-text-muted)]">
-                  {result.critical ? "Critical result must be acknowledged before report release." : `Updated ${formatDateTime(result.updatedAt)}`}
+                  {result.critical ? t("ops.orders.criticalAckRequired") : t("ops.orders.resultUpdated", { time: formatDateTime(result.updatedAt) ?? "—" })}
                 </p>
               </div>
             ))}

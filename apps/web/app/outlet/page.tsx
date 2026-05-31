@@ -6,7 +6,7 @@ import { OutletOps, type OutletJourney } from "../../components/outlet/outlet-op
 import { TenantTheme } from "../../components/tenant-theme";
 import { getAppContext } from "../../lib/session";
 import { pickParam } from "../../lib/url";
-import { workflowStore } from "../../lib/server/workflow-store";
+import { store } from "../../lib/server/store";
 
 type PageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -68,7 +68,7 @@ export default async function OutletPage({ searchParams }: PageProps) {
   const org = getTenantOrg(tenant.id);
   const outlets = org.outlets.map((o) => ({ id: o.id, name: o.name, city: o.city }));
   const selectedOutletId = pickParam(sp, "outlet") ?? outlets[0]?.id ?? "";
-  const snapshot = workflowStore.getSnapshot(tenant.slug);
+  const snapshot = await store.getSnapshot(tenant.slug);
   const journeys = buildJourneys(snapshot);
 
   return (

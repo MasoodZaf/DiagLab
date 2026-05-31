@@ -14,7 +14,7 @@ export default async function AdminPage({ searchParams }: PageProps) {
   const { tenant, actor, locale, t, intlLocale } = getAppContext(sp, {
     defaultRole: "super_admin"
   });
-  const { snapshot } = getTenantDomainData(tenant);
+  const { snapshot } = await getTenantDomainData(tenant);
 
   // RBAC: the white-label configurator is a super-admin–only surface.
   if (actor.role !== "super_admin") {
@@ -57,41 +57,41 @@ export default async function AdminPage({ searchParams }: PageProps) {
     save: t("common.save"),
     pending: t("common.pending"),
     // Static control labels resolved on the server (client cannot call t).
-    densityComfortable: "Comfortable",
-    densityCompact: "Compact",
-    density: "Density",
+    densityComfortable: t("adminConfig.densityComfortable"),
+    densityCompact: t("adminConfig.densityCompact"),
+    density: t("adminConfig.density"),
     featureNames: {
-      onlineBooking: "Online booking",
-      homeCollection: "Home collection",
-      payments: "Payments",
-      aiPatientExplanation: "AI patient explanation",
-      aiResultSummary: "AI result summary",
-      phlebotomyApp: "Phlebotomy app"
+      onlineBooking: t("adminConfig.featureNames.onlineBooking"),
+      homeCollection: t("adminConfig.featureNames.homeCollection"),
+      payments: t("adminConfig.featureNames.payments"),
+      aiPatientExplanation: t("adminConfig.featureNames.aiPatientExplanation"),
+      aiResultSummary: t("adminConfig.featureNames.aiResultSummary"),
+      phlebotomyApp: t("adminConfig.featureNames.phlebotomyApp")
     },
     policyNames: {
-      allowCreditBilling: "Allow credit billing",
-      requireOtpForReports: "Require OTP for reports",
-      requirePathologistApproval: "Require pathologist approval",
-      enableCriticalCallLogging: "Critical call logging"
+      allowCreditBilling: t("adminConfig.policyNames.allowCreditBilling"),
+      requireOtpForReports: t("adminConfig.policyNames.requireOtpForReports"),
+      requirePathologistApproval: t("adminConfig.policyNames.requirePathologistApproval"),
+      enableCriticalCallLogging: t("adminConfig.policyNames.enableCriticalCallLogging")
     },
-    previewReportHeader: "Diagnostic report",
-    previewReportSub: "Released · verified panel",
-    previewPatient: "Patient",
-    previewSamplePassed: "Validated",
-    previewSamplePending: "Pending review",
-    previewInvoice: "Invoice total",
-    previewPrimaryCta: "Release report",
-    previewSecondaryCta: "Preview PDF",
-    appliedConfirmation: "Demo only — brand applied to this preview. No data is persisted.",
-    auditAction: "Action",
-    auditEntity: "Entity",
-    auditActor: "Actor",
-    auditWhen: "When",
-    auditEmpty: "No workflow activity recorded for this tenant yet.",
-    emailFrom: "Email from",
-    smsSender: "SMS sender",
-    whatsappSender: "WhatsApp sender",
-    templatesLabel: "Channel templates",
+    previewReportHeader: t("adminConfig.previewReportHeader"),
+    previewReportSub: t("adminConfig.previewReportSub"),
+    previewPatient: t("adminConfig.previewPatient"),
+    previewSamplePassed: t("adminConfig.previewSamplePassed"),
+    previewSamplePending: t("adminConfig.previewSamplePending"),
+    previewInvoice: t("adminConfig.previewInvoice"),
+    previewPrimaryCta: t("adminConfig.previewPrimaryCta"),
+    previewSecondaryCta: t("adminConfig.previewSecondaryCta"),
+    appliedConfirmation: t("adminConfig.appliedConfirmation"),
+    auditAction: t("adminConfig.auditAction"),
+    auditEntity: t("adminConfig.auditEntity"),
+    auditActor: t("adminConfig.auditActor"),
+    auditWhen: t("adminConfig.auditWhen"),
+    auditEmpty: t("adminConfig.auditEmpty"),
+    emailFrom: t("adminConfig.emailFrom"),
+    smsSender: t("adminConfig.smsSender"),
+    whatsappSender: t("adminConfig.whatsappSender"),
+    templatesLabel: t("adminConfig.templatesLabel"),
     matrixOn: t("common.enabled"),
     matrixOff: t("common.disabled")
   };

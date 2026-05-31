@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { workflowStore } from "../../../../lib/server/workflow-store";
+import { store } from "../../../../lib/server/store";
 
-export function GET(request: Request) {
+export async function GET(request: Request) {
   const tenant = new URL(request.url).searchParams.get("tenant") ?? "lumen";
-  return NextResponse.json({ snapshot: workflowStore.getSnapshot(tenant) });
+  return NextResponse.json({ snapshot: await store.getSnapshot(tenant) });
 }

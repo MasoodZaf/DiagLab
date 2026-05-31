@@ -14,7 +14,7 @@ type PageProps = {
 export default async function OpsReportsPage({ searchParams }: PageProps) {
   const sp = searchParams ? await searchParams : undefined;
   const { tenant, locale, intlLocale, t } = getAppContext(sp, { defaultRole: "pathologist" });
-  const { snapshot, pathologistActor } = getTenantDomainData(tenant);
+  const { snapshot, pathologistActor } = await getTenantDomainData(tenant);
   const href = (path: string) => withParams(path, { tenant: tenant.slug, lang: locale });
 
   return (

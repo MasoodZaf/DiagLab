@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
-import { workflowStore } from "../../../../lib/server/workflow-store";
+import { statusFromError, store } from "../../../../lib/server/store";
 
-// Demo-only: clears persisted workflow state so all surfaces reseed clean.
+// Demo-only: wipes workflow + org state and re-seeds clean from the fixtures.
 // Not a real data-management endpoint — exists so the demo never gets stuck.
 export async function POST() {
-  workflowStore.reset();
-  return NextResponse.json({ ok: true });
+  try {
+    await store.reset();
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ ok: false, message: statusFromError(error) }, { status: 500 });
+  }
 }

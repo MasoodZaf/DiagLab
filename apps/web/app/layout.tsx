@@ -30,6 +30,10 @@ export const viewport: Viewport = {
 const themeScript = `(function(){try{var t=localStorage.getItem('aura-theme');if(t!=='light'&&t!=='dark'){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){}})();`;
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+  // The active locale isn't known at the root (it comes from per-page searchParams),
+  // so `lang="en"` here is only a neutral default. Each page wraps its content in
+  // <TenantTheme>, which sets the real `lang`/`dir` (incl. `dir="rtl"` for Arabic)
+  // on an inner wrapper — so this attribute never forces the wrong direction.
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

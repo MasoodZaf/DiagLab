@@ -1,19 +1,21 @@
 import { NextResponse } from "next/server";
 import { statusFromError, store } from "../../../../lib/server/store";
 
+// Technician enters a new analyzer result for a sample (raises a critical alert
+// automatically when flagged critical).
 export async function POST(request: Request) {
   try {
     const tenant = new URL(request.url).searchParams.get("tenant") ?? "lumen";
     const body = await request.json();
     return NextResponse.json(
-      await store.registerPatientAndOrder(tenant, {
+      await store.enterResult(tenant, {
         actor: body.actor,
-        fullName: body.fullName,
-        phone: body.phone,
-        nationalId: body.nationalId,
-        tests: body.tests,
-        totalAmount: body.totalAmount,
-        homeCollection: body.homeCollection
+        sampleId: body.sampleId,
+        testName: body.testName,
+        value: body.value,
+        referenceRange: body.referenceRange,
+        abnormal: Boolean(body.abnormal),
+        critical: Boolean(body.critical)
       })
     );
   } catch (error) {

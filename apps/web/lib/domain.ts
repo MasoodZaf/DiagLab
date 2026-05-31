@@ -1,13 +1,13 @@
 import { getSessionActor } from "@lab/demo-data";
 import type { TenantConfig, TenantSnapshot } from "@lab/contracts";
-import { workflowStore } from "./server/workflow-store";
+import { store } from "./server/store";
 
 export function withTenant(path: string, tenantSlug: string) {
   return `${path}?tenant=${tenantSlug}`;
 }
 
-export function getTenantDomainData(tenant: TenantConfig) {
-  const snapshot = workflowStore.getSnapshot(tenant.slug);
+export async function getTenantDomainData(tenant: TenantConfig) {
+  const snapshot = await store.getSnapshot(tenant.slug);
 
   return {
     snapshot,

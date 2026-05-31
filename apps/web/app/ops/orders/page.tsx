@@ -14,7 +14,7 @@ type PageProps = {
 export default async function OpsOrdersPage({ searchParams }: PageProps) {
   const sp = searchParams ? await searchParams : undefined;
   const { tenant, locale, intlLocale, t } = getAppContext(sp, { defaultRole: "receptionist" });
-  const { snapshot, receptionistActor } = getTenantDomainData(tenant);
+  const { snapshot, receptionistActor } = await getTenantDomainData(tenant);
   const href = (path: string) => withParams(path, { tenant: tenant.slug, lang: locale });
 
   return (

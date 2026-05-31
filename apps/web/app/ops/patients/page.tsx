@@ -13,7 +13,7 @@ type PageProps = {
 export default async function OpsPatientsPage({ searchParams }: PageProps) {
   const sp = searchParams ? await searchParams : undefined;
   const { tenant, locale, intlLocale, t } = getAppContext(sp, { defaultRole: "receptionist" });
-  const { snapshot, receptionistActor } = getTenantDomainData(tenant);
+  const { snapshot, receptionistActor } = await getTenantDomainData(tenant);
 
   return (
     <OpsShell active="patients" actor={receptionistActor} snapshot={snapshot} tenant={tenant} locale={locale}>

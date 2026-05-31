@@ -17,7 +17,7 @@ export default async function Page({
   const { orderId } = await params;
   const sp = searchParams ? await searchParams : undefined;
   const { tenant, locale, intlLocale, t } = getAppContext(sp);
-  const { snapshot } = getTenantDomainData(tenant);
+  const { snapshot } = await getTenantDomainData(tenant);
 
   // Prefer the requested order; otherwise fall back to the first order that has
   // a report or any results so the demo always renders a meaningful sheet.

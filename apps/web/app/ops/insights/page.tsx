@@ -71,7 +71,7 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
   const { tenant, actor, locale, intlLocale, t } = getAppContext(sp, {
     defaultRole: "branch_manager"
   });
-  const { snapshot } = getTenantDomainData(tenant);
+  const { snapshot } = await getTenantDomainData(tenant);
 
   // --- Real figures from the snapshot ---------------------------------------
   const currency = snapshot.invoices[0]?.currency ?? (tenant.slug === "cedar" ? "GBP" : "PKR");
